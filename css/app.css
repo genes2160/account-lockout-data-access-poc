@@ -306,3 +306,88 @@ button.danger {
     background: #b3261e;
     color: white;
 }
+
+@media (max-width: 600px) {
+    .nav-right {
+        gap: 6px;
+    }
+
+    .user-email {
+        display: none;
+    }
+
+    .logout {
+        padding: 6px 8px;
+        font-size: 11px;
+    }
+}
+
+@media (max-width: 600px) {
+    #toast-container {
+        top: auto;
+        bottom: 16px;
+        left: 50%;
+        right: auto;
+        transform: translateX(-50%);
+        align-items: center;
+    }
+
+    .toast {
+        min-width: unset;
+        width: calc(100vw - 32px);
+        max-width: 420px;
+        text-align: center;
+    }
+}
+@media (max-width: 600px) {
+    #feed {
+        padding: 8px;
+    }
+
+    .post {
+        padding: 12px;
+        border-radius: 10px;
+    }
+}
+@media (max-width: 600px) {
+    button {
+        padding: 14px;
+        font-size: 15px;
+    }
+
+    .modal-actions {
+        flex-direction: column;
+    }
+
+    .modal-actions button {
+        width: 100%;
+    }
+}
+@media (max-width: 600px) {
+    .modal {
+        align-items: flex-end;
+    }
+
+    .modal-card {
+        border-radius: 16px 16px 0 0;
+        max-width: 100%;
+        width: 100%;
+        padding-bottom: 24px;
+    }
+}
+@media (max-width: 600px) {
+    .status-badge {
+        font-size: 12px;
+        padding: 5px 10px;
+    }
+}
+@media (max-width: 600px) {
+    .lock-card {
+        max-width: 100%;
+        margin: 0 8px;
+    }
+
+    .content {
+        padding: 12px;
+    }
+}
