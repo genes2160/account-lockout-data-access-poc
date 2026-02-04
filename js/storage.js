@@ -78,3 +78,7 @@ function recordActivity(message) {
 
   localStorage.activities = JSON.stringify(activities.slice(0, 50));
 }
+
+if (!localStorage.activities) {
+  localStorage.activities = JSON.stringify([]);
+}
