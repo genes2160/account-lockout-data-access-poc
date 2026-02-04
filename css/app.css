@@ -442,3 +442,12 @@ button.danger {
 .activity-icon {
     margin-right: 6px;
 }
+.story-card {
+    max-width: 420px;
+}
+
+.story-actions {
+    display: flex;
+    justify-content: space-around;
+    margin: 12px 0;
+}

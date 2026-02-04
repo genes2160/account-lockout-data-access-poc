@@ -54,10 +54,8 @@
         <aside class="sidebar right">
             <div class="card">
                 <h4>Stories</h4>
-                <ul class="list">
-                    <li>Jane’s update</li>
-                    <li>Alex’s photo</li>
-                </ul>
+                <button onclick="openAddStory()">＋ Story</button>
+                <ul id="storiesList" class="list"></ul>
             </div>
 
             <div class="card">
@@ -104,9 +102,45 @@
             </div>
         </div>
     </div>
+    <div id="storyModal" class="modal hidden">
+        <div class="modal-card story-card">
+            <h3 id="storyAuthor"></h3>
+
+            <div id="storyContent"></div>
+
+            <div class="story-actions">
+                <button onclick="reactToStory('👍')">👍</button>
+                <button onclick="openStoryComment()">💬</button>
+                <button class="danger" onclick="reportStory()">🚩</button>
+            </div>
+
+            <button class="ghost" onclick="closeStory()">Close</button>
+        </div>
+    </div>
+    <div id="addStoryModal" class="modal hidden">
+        <div class="modal-card">
+            <h3>Add Story</h3>
+
+            <select id="storyType">
+                <option value="text">Text</option>
+                <option value="video">Video</option>
+            </select>
+
+            <textarea id="storyText" placeholder="Your story..." rows="4"></textarea>
+
+            <input id="storyVideo" type="file" accept="video/*" />
+
+            <div class="modal-actions">
+                <button onclick="submitStory()">Post</button>
+                <button class="ghost" onclick="closeAddStory()">Cancel</button>
+            </div>
+        </div>
+    </div>
 
     <script src="js/guard.js"></script>
     <script src="js/activity.js"></script>
+    <script src="js/stories.js"></script>
+    <script src="js/stories-db.js"></script>
     <script src="js/notification.js"></script>
     <script src="js/storage.js"></script>
     <script src="js/logger.js"></script>

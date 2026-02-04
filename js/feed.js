@@ -85,6 +85,65 @@ function reactToPost(postId, reactionType) {
 
   renderFeed();
 }
+function reactToStory(emoji) {
+  const stories = JSON.parse(localStorage.stories);
+  const story = stories.find(s => s.id === activeStoryId);
+  if (!story) return;
+
+  story.reactions[emoji] = (story.reactions[emoji] || 0) + 1;
+  localStorage.stories = JSON.stringify(stories);
+
+  toast(`Reacted ${emoji}`, "success");
+  recordActivity(`Reacted ${emoji} to ${story.author}'s story`, "reaction");
+  if (window.refreshActivity) window.refreshActivity();
+}
+function openStoryComment() {
+  const text = prompt("Write a comment");
+  if (!text) return;
+
+  const stories = JSON.parse(localStorage.stories);
+  const story = stories.find(s => s.id === activeStoryId);
+  if (!story) return;
+
+  story.comments.push({
+    text,
+    at: new Date().toISOString()
+  });
+
+  localStorage.stories = JSON.stringify(stories);
+
+  toast("Comment added", "success");
+  recordActivity(`Commented on ${story.author}'s story`, "reaction");
+  if (window.refreshActivity) window.refreshActivity();
+}
+function reportStory() {
+  const stories = JSON.parse(localStorage.stories);
+  const story = stories.find(s => s.id === activeStoryId);
+  if (!story) return;
+
+  story.reports++;
+  localStorage.stories = JSON.stringify(stories);
+  if (story.reports >= 1) {
+    const users = JSON.parse(localStorage.users);
+    const user = users.find(u => u.id === story.userId);
+
+    if (user) {
+      user.status = "locked";
+      user.dataState = "retained";
+      user.thirdPartyAccess = true;
+      user.retentionUntil = "2026-12-31";
+
+      localStorage.users = JSON.stringify(users);
+
+      log.error(`Account locked via story moderation`);
+      recordActivity(`🚫 ${story.author} locked (story report)`, "block");
+    }
+  }
+
+  toast("Story reported", "warn");
+  recordActivity(`Reported ${story.author}'s story`, "report");
+  if (window.refreshActivity) window.refreshActivity();
+}
 
 // initial load
 renderFeed();

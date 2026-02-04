@@ -67,6 +67,7 @@ setTimeout(() => {
     localStorage.posts = JSON.stringify(posts);
   }
 })();
+
 function recordActivity(message) {
   const activities = JSON.parse(localStorage.activities || "[]");
 
@@ -81,4 +82,30 @@ function recordActivity(message) {
 
 if (!localStorage.activities) {
   localStorage.activities = JSON.stringify([]);
+}
+if (!localStorage.stories) {
+  localStorage.stories = JSON.stringify([
+    {
+      id: 1,
+      userId: 2,
+      author: "Jane Smith",
+      type: "text", // "text" | "video"
+      content: "Feeling grateful today ✨",
+      createdAt: new Date().toISOString(),
+      reactions: {},
+      comments: [],
+      reports: 0
+    },
+    {
+      id: 2,
+      userId: 3,
+      author: "Alex Brown",
+      type: "video",
+      content: "sample.mp4", // placeholder
+      createdAt: new Date().toISOString(),
+      reactions: {},
+      comments: [],
+      reports: 0
+    }
+  ]);
 }
