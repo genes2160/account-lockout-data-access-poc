@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Sign in – Google (Simulation)</title>
+    <link rel="stylesheet" href="css/app.css" />
+</head>
+
+<body>
+    <div class="page">
+        <div class="card auth-card">
+            <h2>Sign in</h2>
+            <p class="subtitle">Choose an account</p>
+
+            <div class="google-account" onclick="selectAccount('John Doe','john.doe@gmail.com')">
+                <strong>John Doe</strong>
+                <span>john.doe@gmail.com</span>
+            </div>
+
+            <div class="google-account" onclick="selectAccount('Jane Smith','jane.smith@gmail.com')">
+                <strong>Jane Smith</strong>
+                <span>jane.smith@gmail.com</span>
+            </div>
+
+            <p class="hint">Simulation only • No real Google authentication</p>
+        </div>
+    </div>
+
+    <script src="js/logger.js"></script>
+    <script src="js/google-sim.js"></script>
+</body>
+
+</html>

@@ -8,19 +8,26 @@
 </head>
 
 <body>
+    <div id="toast-container"></div>
 
-    <div class="card center">
-        <h2>Social App</h2>
+    <div class="page">
+        <div class="card auth-card">
+            <h2>Boundary</h2>
+            <p class="subtitle">Login to continue</p>
 
-        <input id="email" placeholder="Email" />
-        <input id="password" type="password" placeholder="Password" />
+            <input id="email" placeholder="Email" />
+            <input id="password" type="password" placeholder="Password" />
 
-        <button onclick="login()">Login</button>
-        <button class="google">Login with Google</button>
+            <button onclick="login()">Login</button>
+            <button class="google" onclick="location.href='google-sim.html'">
+                Login with Google
+            </button>
 
-        <p class="hint">Simulated login • No backend</p>
+
+            <p class="hint">Simulated login • No backend</p>
+        </div>
     </div>
-
+    <script src="js/notification.js"></script>
     <script src="js/storage.js"></script>
     <script src="js/logger.js"></script>
     <script src="js/auth.js"></script>

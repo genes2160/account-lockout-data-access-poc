@@ -14,3 +14,16 @@ This project demonstrates how a user can:
 - Export denial is intentional
 
 This POC is for educational and discussion purposes.
+
+
+## v0.2.0 – Post-Lock Data Lifecycle
+
+This version demonstrates that:
+- account access can be revoked
+- data export can be denied
+- data may still be retained internally
+- third-party processing may continue
+- users have no visibility into these states
+
+All behavior is simulated using localStorage.
+No real data is transmitted.

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>System View</title>
+    <link rel="stylesheet" href="css/app.css" />
+</head>
+
+<body>
+
+    <h2>System Data View (Simulation)</h2>
+    <p class="hint">Not visible to locked users</p>
+
+    <table border="1" width="100%">
+        <thead>
+            <tr>
+                <th>User</th>
+                <th>Status</th>
+                <th>Data State</th>
+                <th>Third Party</th>
+                <th>Retention Until</th>
+            </tr>
+        </thead>
+        <tbody id="rows"></tbody>
+    </table>
+
+    <script src="js/storage.js"></script>
+    <script src="js/logger.js"></script>
+    <script src="js/system.js"></script>
+</body>
+
+</html>

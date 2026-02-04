@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Authorize – Simulation</title>
+    <link rel="stylesheet" href="css/app.css" />
+</head>
+
+<body>
+    <div class="page">
+        <div class="card auth-card">
+            <h2>Boundary wants access</h2>
+
+            <p id="identity"></p>
+
+            <ul class="permissions">
+                <li>View your basic profile</li>
+                <li>View your email address</li>
+            </ul>
+
+            <button onclick="allow()">Allow</button>
+            <button class="google" onclick="cancel()">Cancel</button>
+
+            <p class="hint">Educational simulation • No real OAuth</p>
+        </div>
+    </div>
+
+    <script src="js/logger.js"></script>
+    <script src="js/google-consent.js"></script>
+</body>
+
+</html>

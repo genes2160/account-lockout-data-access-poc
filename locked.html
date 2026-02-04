@@ -5,20 +5,45 @@
     <meta charset="UTF-8" />
     <title>Account Locked</title>
     <link rel="stylesheet" href="css/app.css" />
+    <link rel="stylesheet" href="css/locked.css" />
 </head>
 
 <body>
+    <div id="toast-container"></div>
 
-    <div class="card center">
-        <h2>Account Locked</h2>
-        <p>Your account has been permanently restricted.</p>
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <strong>Boundary</strong>
+        </div>
 
-        <button onclick="attemptExport()">Export My Data</button>
+        <div class="nav-right">
+            <span id="userEmail" class="user-email"></span>
+            <span id="userStatus" class="status-badge locked"></span>
+            <button class="logout" onclick="logout()">Logout</button>
+        </div>
+    </nav>
 
-        <div id="message"></div>
-    </div>
+    <!-- CENTERED CONTENT -->
+    <main class="content center-content">
+        <div class="card lock-card">
+            <h2>Account Locked</h2>
 
+            <p>Your account has been permanently restricted.</p>
+
+            <p class="hint">
+                Simulation: your data may still exist internally, but access is denied.
+            </p>
+
+            <button onclick="attemptExport()">Export My Data</button>
+
+            <div id="message"></div>
+        </div>
+    </main>
+    <script src="js/guard.js"></script>
+    <script src="js/notification.js"></script>
     <script src="js/logger.js"></script>
+    <script src="js/auth.js"></script>
     <script src="js/export.js"></script>
 </body>
 
