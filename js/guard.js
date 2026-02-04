@@ -1,33 +1,51 @@
 (function authGuard() {
   try {
     const userRaw = localStorage.currentUser;
+    const path = location.pathname;
+    const isIndex =
+      path === "/" || path.endsWith("index.html");
+    const isLockedPage = path.endsWith("locked.html");
 
-    // localStorage cleared or user missing
-    if (!userRaw) {
-      console.warn("[GUARD] No authenticated user found. Redirecting.");
+    // ✅ Logged IN user on index → dashboard
+    if (userRaw && isIndex) {
+      console.info("[GUARD] Authenticated user on index → dashboard");
+      location.replace("dashboard.html");
+      return;
+    }
+
+    // ❌ Logged OUT user on protected page → index
+    if (!userRaw && !isIndex) {
+      console.warn("[GUARD] No session → redirect to index");
       location.replace("index.html");
+      return;
+    }
+
+    // ✅ If logged out AND already on index → DO NOTHING
+    if (!userRaw && isIndex) {
       return;
     }
 
     const user = JSON.parse(userRaw);
 
-    // corrupted or invalid user object
+    // ❌ Corrupt session → reset + index
     if (!user || !user.email || !user.status) {
-      console.warn("[GUARD] Invalid user session. Redirecting.");
+      console.warn("[GUARD] Invalid session → reset");
       localStorage.removeItem("currentUser");
-      location.replace("index.html");
+      if (!isIndex) location.replace("index.html");
       return;
     }
 
-    // OPTIONAL: lock enforcement
-    if (user.status === "locked" && !location.pathname.includes("locked.html")) {
-      console.warn("[GUARD] Locked user redirected.");
+    // 🔒 Locked user enforcement
+    if (user.status === "locked" && !isLockedPage) {
+      console.warn("[GUARD] Locked user → locked.html");
       location.replace("locked.html");
     }
 
   } catch (e) {
-    console.error("[GUARD] Session check failed:", e);
+    console.error("[GUARD] Fatal error:", e);
     localStorage.clear();
-    location.replace("index.html");
+    if (!location.pathname.endsWith("index.html")) {
+      location.replace("index.html");
+    }
   }
 })();
