@@ -46,3 +46,35 @@ setTimeout(() => {
     }
   });
 }, 3000);
+// ensure reactions exist on posts
+(function ensureReactions() {
+  const posts = JSON.parse(localStorage.posts || "[]");
+  let changed = false;
+
+  posts.forEach(p => {
+    if (!p.reactions) {
+      p.reactions = {
+        like: [],
+        love: [],
+        laugh: [],
+        wow: []
+      };
+      changed = true;
+    }
+  });
+
+  if (changed) {
+    localStorage.posts = JSON.stringify(posts);
+  }
+})();
+function recordActivity(message) {
+  const activities = JSON.parse(localStorage.activities || "[]");
+
+  activities.unshift({
+    id: Date.now(),
+    message,
+    ts: new Date().toISOString()
+  });
+
+  localStorage.activities = JSON.stringify(activities.slice(0, 50));
+}

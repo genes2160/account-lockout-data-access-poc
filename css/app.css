@@ -339,6 +339,7 @@ button.danger {
         text-align: center;
     }
 }
+
 @media (max-width: 600px) {
     #feed {
         padding: 8px;
@@ -349,6 +350,7 @@ button.danger {
         border-radius: 10px;
     }
 }
+
 @media (max-width: 600px) {
     button {
         padding: 14px;
@@ -363,6 +365,7 @@ button.danger {
         width: 100%;
     }
 }
+
 @media (max-width: 600px) {
     .modal {
         align-items: flex-end;
@@ -375,12 +378,14 @@ button.danger {
         padding-bottom: 24px;
     }
 }
+
 @media (max-width: 600px) {
     .status-badge {
         font-size: 12px;
         padding: 5px 10px;
     }
 }
+
 @media (max-width: 600px) {
     .lock-card {
         max-width: 100%;
@@ -390,4 +395,24 @@ button.danger {
     .content {
         padding: 12px;
     }
+}
+
+.reactions {
+    display: flex;
+    gap: 8px;
+    margin: 8px 0;
+}
+
+.reaction {
+    background: #f1f3f4;
+    border: none;
+    border-radius: 20px;
+    padding: 6px 10px;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.reaction.active {
+    background: #e8f0fe;
+    color: #1a73e8;
 }
