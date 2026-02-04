@@ -1,0 +1,46 @@
+body {
+    font-family: sans-serif;
+    background: #f5f6f8;
+}
+
+.center {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.card {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 320px;
+}
+
+input,
+button {
+    margin: 6px 0;
+    padding: 10px;
+}
+
+button {
+    cursor: pointer;
+}
+
+.google {
+    background: #4285f4;
+    color: white;
+}
+
+#feed {
+    padding: 10px;
+}
+
+.post {
+    background: white;
+    padding: 10px;
+    margin-bottom: 8px;
+    border-radius: 6px;
+}
