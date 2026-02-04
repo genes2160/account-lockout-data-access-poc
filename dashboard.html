@@ -5,19 +5,108 @@
     <meta charset="UTF-8" />
     <title>Dashboard</title>
     <link rel="stylesheet" href="css/app.css" />
+    <link rel="stylesheet" href="css/dashboard.css" />
 </head>
 
 <body>
+    <div id="toast-container"></div>
 
-    <header>
-        <h3>Feed</h3>
-    </header>
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <strong>Boundary</strong>
+        </div>
 
-    <div id="feed"></div>
+        <div class="nav-right">
+            <span id="userEmail" class="user-email"></span>
+            <span id="userStatus" class="status-badge"></span>
+            <button class="logout" onclick="logout()">Logout</button>
+        </div>
+    </nav>
 
+    <!-- APP LAYOUT -->
+    <main class="app-layout">
+
+        <!-- LEFT SIDEBAR -->
+        <aside class="sidebar left">
+            <div class="card">
+                <h4>Profile</h4>
+                <p id="profileEmail"></p>
+            </div>
+
+            <div class="card">
+                <h4>Friends</h4>
+                <ul class="list">
+                    <li>Jane Smith</li>
+                    <li>Alex Brown</li>
+                    <li>Chris Lee</li>
+                </ul>
+            </div>
+        </aside>
+
+        <!-- FEED -->
+        <section class="feed">
+            <div id="feed"></div>
+        </section>
+
+        <!-- RIGHT SIDEBAR -->
+        <aside class="sidebar right">
+            <div class="card">
+                <h4>Stories</h4>
+                <ul class="list">
+                    <li>Jane’s update</li>
+                    <li>Alex’s photo</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h4>Activity</h4>
+                <p>No new notifications</p>
+            </div>
+        </aside>
+
+    </main>
+    <div id="reportModal" class="modal hidden">
+        <div class="modal-card">
+            <h3>Report Post</h3>
+
+            <label>
+                Reason
+                <select id="reportReason">
+                    <option>Inappropriate content</option>
+                    <option>Harassment or hate</option>
+                    <option>Spam or misleading</option>
+                    <option>Violence or harmful behavior</option>
+                    <option>Other</option>
+                </select>
+            </label>
+
+            <div class="modal-actions">
+                <button onclick="submitReport()">Submit Report</button>
+                <button class="ghost" onclick="closeReport()">Cancel</button>
+            </div>
+        </div>
+    </div>
+    <div id="blockModal" class="modal hidden">
+        <div class="modal-card">
+            <h3>Block this user?</h3>
+
+            <p class="hint">
+                You won’t see posts from this user again.
+            </p>
+
+            <div class="modal-actions">
+                <button class="danger" onclick="confirmBlock()">Block</button>
+                <button class="ghost" onclick="cancelBlock()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/guard.js"></script>
+    <script src="js/notification.js"></script>
     <script src="js/storage.js"></script>
     <script src="js/logger.js"></script>
-    <script src="js/notifications.js"></script>
+    <script src="js/auth.js"></script>
     <script src="js/moderation.js"></script>
     <script src="js/feed.js"></script>
 </body>

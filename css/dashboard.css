@@ -1,0 +1,59 @@
+/* APP LAYOUT */
+.app-layout {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 16px;
+    display: grid;
+    grid-template-columns: 240px 1fr 280px;
+    gap: 16px;
+}
+
+/* SIDEBARS */
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.sidebar .card {
+    padding: 12px;
+}
+
+/* FEED */
+.feed {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* LIST */
+.list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.list li {
+    font-size: 13px;
+    padding: 6px 0;
+    border-bottom: 1px solid #eee;
+}
+
+/* POSTS */
+.post {
+    background: white;
+    padding: 14px;
+    border-radius: 12px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+}
+
+/* MOBILE */
+@media (max-width: 900px) {
+    .app-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .sidebar {
+        display: none;
+    }
+}

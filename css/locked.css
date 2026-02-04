@@ -1,0 +1,19 @@
+/* CONTENT AREA */
+.content {
+    min-height: calc(100vh - 56px);
+    /* navbar height */
+    padding: 16px;
+}
+
+/* CENTER CONTENT BELOW NAVBAR */
+.center-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* LOCK CARD */
+.lock-card {
+    max-width: 420px;
+    text-align: center;
+}
