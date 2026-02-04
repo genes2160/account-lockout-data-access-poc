@@ -62,8 +62,10 @@
 
             <div class="card">
                 <h4>Activity</h4>
-                <p>No new notifications</p>
+                <div id="activityList" class="activity-list"></div>
+                <p id="activityEmpty" class="hint" style="display:none;">No activity yet</p>
             </div>
+
         </aside>
 
     </main>
@@ -104,6 +106,7 @@
     </div>
 
     <script src="js/guard.js"></script>
+    <script src="js/activity.js"></script>
     <script src="js/notification.js"></script>
     <script src="js/storage.js"></script>
     <script src="js/logger.js"></script>

@@ -81,9 +81,11 @@ function reactToPost(postId, reactionType) {
   recordActivity(
     `You reacted ${reactionType} to ${post.author}'s post`
   );
+  if (window.refreshActivity) window.refreshActivity();
 
   renderFeed();
 }
 
 // initial load
 renderFeed();
+if (window.refreshActivity) window.refreshActivity();

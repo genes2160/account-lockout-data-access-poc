@@ -1,3 +1,5 @@
+let pendingBlockUserName = null;
+
 function report(postId) {
   const posts = JSON.parse(localStorage.posts);
   const users = JSON.parse(localStorage.users);
@@ -48,12 +50,13 @@ function submitReport() {
     toast("Unable to report post", "error");
     return;
   }
-
   pendingBlockUserId = post.userId;
+  pendingBlockUserName = post.author;
 
   toast("Report submitted", "success");
   log.warn(`Post ${post.id} reported`);
-
+  recordActivity(`You reported ${post.author}'s post`);
+  if (window.refreshActivity) window.refreshActivity();
   // show block modal
   document.getElementById("blockModal").classList.remove("hidden");
 }
@@ -66,9 +69,10 @@ function confirmBlock() {
     blocked.push(pendingBlockUserId);
     localStorage.blockedUsers = JSON.stringify(blocked);
   }
-
   toast("User blocked. Their posts are now hidden.", "info");
   log.info(`User ${pendingBlockUserId} blocked`);
+  recordActivity(`You blocked ${pendingBlockUserName}`, "block");
+  if (window.refreshActivity) window.refreshActivity();
 
   cleanupAfterModeration();
   renderFeed(); // ✅ immediate UI update
@@ -84,5 +88,6 @@ function cancelBlock() {
 function cleanupAfterModeration() {
   reportingPostId = null;
   pendingBlockUserId = null;
+  pendingBlockUserName = null;
   document.getElementById("blockModal").classList.add("hidden");
 }
