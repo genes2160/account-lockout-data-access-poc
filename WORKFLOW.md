@@ -1,403 +1,356 @@
-## 🎯 POC GOAL (Very Clear)
+# 🧪 Social Lockout POC — Refined Workflow
 
-Demonstrate — **without any backend** — how:
+## 🎯 POC GOAL (Crystal Clear)
+
+Demonstrate — **using only frontend code** — how:
 
 * users can be **reported**
 * accounts can be **locked**
 * access can be **fully denied**
 * **data export is blocked**
-* yet **user data still exists in the system**
+* yet **user data continues to exist and be processed internally**
 
-This visually illustrates the **gap between enforcement and data rights**.
+This POC visually exposes the **disconnect between user access and data lifecycle**.
+
+> **Core thesis:**
+> *Loss of access does not automatically imply loss of data.*
 
 ---
 
-## 🧠 Core Principles
-
+## 🧠 Design Principles
 * ❌ No backend
-* ❌ No auth server
+* ❌ No real authentication
 * ❌ No APIs
-* ✅ Pure **HTML + CSS + JS**
-* ✅ `localStorage` as the “system of record”
-* ✅ Clear logs, notifications, and UX states
-* ✅ Mobile-first, clean UI
+* ✅ Pure **HTML + CSS + JavaScript**
+* ✅ `localStorage` = system of record
+* ✅ Explicit UX states + notifications
+* ✅ Structured logs for traceability
+* ✅ Mobile-first, accessible UI
+* ✅ Everything clearly labeled **SIMULATION**
 
 ---
 
-## 👥 Actors (Hardcoded, Simple)
+## 👥 Actors (Intentionally Minimal)
 
-### User A – Normal user
+### 🧑 User A — Reporting User
+* Can log in
+* Can browse feed
+* Can report content
 
-* Can post
-* Can like
-* Can report another user
-
-### User B – Target user
-
+### 🧑 User B — Reported User
 * Posts content
 * Gets reported
-* Gets banned
-* Loses login access
+* Account is locked
+* Loses access entirely
 * Cannot export data
+* Has **no visibility** into data lifecycle
+
+> No admins, no moderators — enforcement is **system-driven**.
 
 ---
 
-## 🗂 Suggested File Structure
+## 🗂 File Structure (Lean but Complete)
 
 ```
 /social-lockout-poc
 │
-├── index.html          # login / register
-├── dashboard.html      # social feed
-├── locked.html         # banned account screen
+├── index.html          # Login (simulated)
+├── dashboard.html      # Feed + interactions
+├── locked.html         # Post-lock experience
+├── system.html         # Internal-only system view (hidden)
 │
 ├── css/
-│   └── app.css
+│   ├── app.css         # Global + mobile-first styles
+│   ├── dashboard.css
+│   └── locked.css
 │
 ├── js/
-│   ├── storage.js      # localStorage wrapper
-│   ├── auth.js         # simulated auth
-│   ├── feed.js         # posts, likes, reports
-│   ├── moderation.js  # report + ban logic
-│   ├── export.js       # data export attempt
-│   ├── notifications.js
-│   └── logger.js
+│   ├── guard.js        # Route protection + redirect logic
+│   ├── storage.js     # localStorage initialization + helpers
+│   ├── auth.js        # Simulated login/logout
+│   ├── feed.js        # Feed rendering
+│   ├── moderation.js  # Report → lock → block flow
+│   ├── export.js      # Data export denial
+│   ├── notification.js# Toast system
+│   ├── logger.js      # Structured logging
+│   └── system.js      # Internal system dashboard
+│
+└── .gitignore
+│
+│
+└── WORKFLOW.md
 │
 └── README.md
 ```
 
 ---
 
-## 🔐 Login / Register (Simulated)
+## 🔐 Authentication (Simulated)
 
-**index.html**
+### index.html
 
-* Centered login/register card
 * Email + password (fake)
-* “Login with Google” button (simulated)
+* “Login with Google” (visual OAuth simulation)
 
 ```js
-localStorage.users = [
+users = [
   { id: 1, email: "userA@test.com", status: "active" },
   { id: 2, email: "userB@test.com", status: "active" }
 ];
 ```
 
-On login:
+### Login Rules
 
-* If `status === "locked"` → redirect to `locked.html`
-* Else → `dashboard.html`
+* `status === "active"` → dashboard
+* `status === "locked"` → locked screen
+* No session → index
+* Logged-in user on index → redirect to dashboard
+
+Handled centrally by `guard.js`.
 
 ---
 
-## 📰 Dashboard (Social Media App)
-
-### Features
-
-* Feed (posts from both users)
-* Like button
-* Share (fake)
-* Report button
+## 📰 Dashboard (Looks Real, Behaves Simple)
 
 ### UI Sections
 
-* Top nav (logo, notifications bell)
-* Feed cards
-* Floating “Create Post” button
+* Sticky navbar (identity + status)
+* Feed (posts from multiple users)
+* Sidebars (friends, stories — cosmetic)
+* Report button per post
+
+### Interactions
+
+* Like (cosmetic)
+* Share (fake)
+* Report (functional)
 
 ---
 
-## 🚨 Reporting Flow
+## 🚨 Reporting → Enforcement Flow
 
-**User A reports User B**
+### User A reports a post
 
 ```js
-reportUser(userId, reason);
+openReport(postId)
+submitReport()
 ```
 
-What happens:
+### System Response
 
-* Report stored in `localStorage.reports`
-* Notification shown
-* Threshold reached (e.g. 1 report)
-* User B status → `"locked"`
+1. Report recorded
+2. Notification shown
+3. Threshold reached (1 report)
+4. Target user status → `locked`
+5. Data lifecycle updated
+6. Optional block prompt
 
-Extensive logs:
+### Logs
 
-```js
-log.info("Report submitted");
-log.warn("Account flagged");
-log.error("Account locked");
+```
+[WARN] Report submitted
+[ERROR] Account locked
+[INFO] Data state → retained
 ```
 
 ---
 
-## 🚫 Locked Account Experience
+## 🔒 Locked Account Experience
 
-**locked.html**
+### locked.html
 
-When User B tries to login:
+When User B tries to log in:
 
-* Full-screen “Account Locked” screen
-* Reason shown (generic)
-* CTA buttons:
+* Access fully denied
+* Neutral explanation
+* No appeal flow
+* No internal details
+* Clear finality
 
-  * “Learn more”
-  * “Export my data”
+### Available Actions
+
+* “Learn more” (static)
+* “Export my data” (fails)
 
 ---
 
-## 📦 Data Export Attempt (Key Part)
+## 📦 Data Export Attempt (Core Moment)
 
 User clicks **Export My Data**
 
-What happens:
+### UX Outcome
 
 * Spinner
-* Notification:
-  ❌ “Data export unavailable for locked accounts”
+* Toast:
+  ❌ *“Data export unavailable for locked accounts”*
 
-But internally:
+### Reality (Internal)
 
 ```js
-localStorage.userData still exists
+localStorage.users
+localStorage.posts
+localStorage.activityLogs
 ```
 
-Show:
+All still exist.
 
-* ❌ Access denied
-* ❌ No download
-* ❌ No preview
-
-This is the **core illustration**.
+> This contrast is the **entire point of the POC**.
 
 ---
 
-## 🔔 Notification System (Very Important)
+## 🔔 Notification System
 
-Reusable notification component:
+Reusable toast component:
 
 * success (green)
 * info (blue)
 * warning (orange)
 * error (red)
 
-Auto-dismiss after X seconds.
+Auto-dismissed, mobile-safe, non-blocking.
 
 ```js
-notify("Account locked", "error");
+toast("Account locked", "error");
 ```
 
 ---
 
-## 🧾 Logging System (Console + UI)
+## 🧾 Logging System
 
-Every action logs:
+All actions produce logs with:
 
 * timestamp
-* level
+* severity
 * message
 
-Example:
-
 ```
-[INFO] User logged in
+[INFO] Login success
 [WARN] Report submitted
-[ERROR] Account access denied
+[ERROR] Access denied
 ```
 
-Optionally show logs in a collapsible panel.
+Optional collapsible log panel for demos.
 
 ---
 
-## 📱 Mobile Compatibility
+## 📱 Mobile-First by Design
 
-* Flexbox / CSS Grid
-* Max-width feed cards
-* Touch-friendly buttons
-* No hover dependencies
+* CSS Grid → collapses to single column
+* Sidebars hidden on small screens
+* Bottom-sheet modals
+* Large tap targets
+* No hover reliance
+* Toasts reposition to bottom
 
 ---
 
-## 📘 README (Important)
+## 📘 README (Narrative, Not Marketing)
 
-Explain:
+README explains:
 
-* What the POC demonstrates
+* What is being demonstrated
 * Why localStorage is used
-* What happens to data after lock
+* What happens after lockout
 * Why export is denied
-* How this maps to real-world platforms
+* How this maps to real platforms
+* Explicit ethical framing
 
 ---
 
-## 🔜 Next Version (You already hinted)
+# 🚧 v0.2.0 — Post-Lock Data Lifecycle Simulation
 
-> “then next version we explore what and how their data can be sold since not accessed”
+## 🎯 Objective
 
-That would be:
+Extend the POC to demonstrate **what can happen to data after access is revoked**, without implying endorsement.
 
-* Silent data access
-* “Third-party processing”
-* No user visibility
-* Monetization simulation
-
-⚠️ Ethically sensitive — but powerful if framed as **illustration**, not endorsement.
+> This version illustrates **opacity**, not abuse.
 
 ---
 
-## ✅ Summary
+## 🧠 Core Idea
 
-This POC is:
-* coherent
-* demonstrative
-* easy to reason about
-* technically simple
-* politically neutral
-* very effective
-
-
-# 🚧 v0.2.0 — *Post-Lock Data Lifecycle Simulation*
-
-## 🎯 Objective (Very Explicit)
-
-Extend the POC to **demonstrate what *can* happen to user data after lockout**, when:
-
-* the user has **no access**
-* data **still exists**
-* processing continues **outside user visibility**
-
-This version **does not promote misuse** — it **illustrates opacity**.
+> **Access revoked ≠ data erased**
 
 ---
 
-## 🧠 Core Concept
+## 🆕 Concepts Introduced
 
-> **Loss of access ≠ loss of data**
-
-v0.2.0 simulates:
-
-* background data processing
-* third-party access flags
-* monetization indicators
-* retention timelines
-* zero user visibility
-
-All clearly labeled as **simulation**.
-
----
-
-## 🆕 New Concepts Introduced
-
-### 1️⃣ Data Lifecycle States
-
-Each user gets a lifecycle state:
+### 1️⃣ Data Lifecycle State Machine
 
 ```js
-dataState: "active" | "restricted" | "retained" | "shared" | "deleted"
+dataState:
+  "active" |
+  "restricted" |
+  "retained" |
+  "shared" |
+  "deleted"
 ```
 
-* `active` → normal user
-* `restricted` → account locked
-* `retained` → data held for internal reasons
-* `shared` → simulated third-party processing
-* `deleted` → data erased
+* User sees **none** of this
+* System sees **everything**
 
 ---
 
-### 2️⃣ Silent Background Processing (Simulated)
+### 2️⃣ Silent Background Processing
 
-When user is locked:
+After lock:
 
-* No UI change for the user
-* Internal logs show processing
+* No user-facing changes
+* Logs show continued processing
 
-```js
-log.info("Background job: user data retained");
-log.info("Background job: analytics access enabled");
 ```
-
-This reinforces:
-
-> *Processing can continue even when access is denied.*
+[INFO] Background job: analytics enabled
+```
 
 ---
 
-### 3️⃣ “Third-Party Access” Simulation
-
-Add a **system-only flag**:
+### 3️⃣ Third-Party Access Flag (Simulated)
 
 ```js
 thirdPartyAccess: true
 ```
 
-Examples shown only in logs / admin panel:
+Visible only in:
 
-* “Ad analytics”
-* “Safety review”
-* “Research dataset”
-* “Aggregated insights”
+* logs
+* system dashboard
 
-⚠️ No real data leaves the browser.
+No real data leaves the browser.
 
 ---
 
-### 4️⃣ Retention Timer (Visual but Inaccessible)
-
-Simulate retention duration:
+### 4️⃣ Retention Timeline
 
 ```js
 retentionUntil: "2026-12-31"
 ```
 
-User **cannot see this**.
-Only visible in:
+* Hidden from user
+* Visible internally
 
-* logs
-* internal “system view”
-
-This highlights **asymmetry of information**.
+Highlights **information asymmetry**.
 
 ---
 
-### 5️⃣ Internal System View (Read-Only)
+### 5️⃣ Internal System View (`system.html`)
 
-Add a **hidden system dashboard** (`system.html`):
+* Not linked
+* Read-only
+* Simulates internal tooling
 
-* shows all users
-* shows data states
-* shows access flags
-* shows retention timers
+Shows:
 
-This page:
+* users
+* status
+* data states
+* processing flags
+* retention windows
 
-* is not linked
-* simulates internal tooling
-* contrasts sharply with locked user experience
-
----
-
-## 🖥 New Screens (v0.2.0)
-
-### 🔒 Locked User (unchanged UX)
-
-* Still cannot export data
-* Still no visibility
-* Still sees “access denied”
-
-### ⚙️ System View (new)
-
-* Full data visibility
-* Full lifecycle states
-* Full processing flags
-
-This contrast is the **core message**.
+Contrasts sharply with locked user screen.
 
 ---
 
-## 🧾 Logging (Expanded)
-
-Add **structured logs**:
+## 🧾 Expanded Logging
 
 ```
 [INFO] Account locked
@@ -406,51 +359,35 @@ Add **structured logs**:
 [INFO] Retention until 2026-12-31
 ```
 
-Optionally render logs in a collapsible UI panel.
-
 ---
 
-## 🧠 Ethical Guardrails (Important)
+## 🧠 Ethical Guardrails
 
-Include explicit labels:
+Everywhere:
 
 * “Simulation”
-* “Illustrative”
-* “No real data shared”
-* “Demonstration of visibility gaps”
+* “Educational”
+* “No real data”
+* “Illustrates visibility gaps”
 
-Add to README + UI footer.
-
----
-
-## 📘 README Additions (v0.2.0)
-
-New sections:
-
-* Data lifecycle after lockout
-* Visibility vs processing
-* Why lack of access ≠ lack of use
-* Mapping to GDPR concepts (without accusing)
+Clear, explicit, unavoidable.
 
 ---
 
-## 🔜 v0.3.0 (Optional, Later)
+## 🔜 v0.3.0 (Optional, If You Want)
 
-If you choose:
-
-* Data deletion proof UX
-* Erasure verification receipts
-* Post-lock data summary screen
-* “What good looks like” reference model
+* Erasure request flow
+* Deletion verification UX
+* “Good governance” reference model
+* Post-lock transparency report
 
 ---
 
-## ✅ Why v0.2.0 Works
-
-* Neutral
-* Educational
+## ✅ Why This Works
 * Technically simple
+* Visually powerful
 * Ethically framed
-* Powerful contrast
-* Supports your LinkedIn / GDPR discussion perfectly
-
+* Politically neutral
+* Easy to demo
+* Easy to discuss
+* Hard to dismiss
