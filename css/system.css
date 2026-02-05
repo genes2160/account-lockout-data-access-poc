@@ -1,0 +1,33 @@
+.system-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+.system-table th,
+.system-table td {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    text-align: left;
+}
+
+.system-table th {
+    background: #f5f6f8;
+    font-weight: 600;
+}
+
+.export-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 12px;
+}
+
+.export-controls label {
+    font-size: 13px;
+}
+
+.export-controls button {
+    margin-left: auto;
+    max-width: 260px;
+}
