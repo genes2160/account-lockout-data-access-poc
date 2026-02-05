@@ -52,7 +52,14 @@ function submitReport() {
   }
   pendingBlockUserId = post.userId;
   pendingBlockUserName = post.author;
-
+// Find and update the current user if it's the one being blocked
+  const currentUser = JSON.parse(localStorage.users || "[]").find(u => u.id === pendingBlockUserId) || null;
+  if (currentUser && currentUser.id === pendingBlockUserId) {
+    currentUser.status = "locked";
+    localStorage.users = JSON.stringify(
+      JSON.parse(localStorage.users || "[]").map(u => u.id === pendingBlockUserId ? currentUser : u)
+    );
+  }
   toast("Report submitted", "success");
   log.warn(`Post ${post.id} reported`);
   recordActivity(`You reported ${post.author}'s post`);

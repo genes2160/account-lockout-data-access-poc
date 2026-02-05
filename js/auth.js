@@ -13,6 +13,7 @@ function login() {
   if (user.status === "locked") {
     toast("Account is locked", "error");
     log.error("Login denied: account locked");
+    localStorage.currentUser = JSON.stringify(user);
     location.href = "locked.html";
     return;
   } else {
